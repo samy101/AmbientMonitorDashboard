@@ -9,13 +9,13 @@
         text-align: center;
       }
       
-      #g1 {
+      #g1, #g2{
         width:400px; height:320px;
         display: inline-block;
         margin: 1em;
       }
       
-      #g2, #g3, #g4 {
+      #g3, #g4 {
         width:100px; height:80px;
         display: inline-block;
         margin: 1em;
@@ -37,12 +37,13 @@
       var g1, g2, g3, g4;
       
       window.onload = function(){
+
         g1 = new JustGage({
           id: "g1", 
           value: 0, 
           min: 0,
           max: 50,
-          title: "3rd Floor - Temperature",
+          title: "Director's Office",
           label: "Celsius",
           levelColors: [
           	"#ffffff",
@@ -50,17 +51,29 @@
           	"#FF0000"
           ]
         });
+
+        g2 = new JustGage({
+          id: "g2", 
+          value: 0, 
+          min: 0,
+          max: 50,
+          title: "Registrar's Office",
+          label: "Celsius",
+          levelColors: [
+          	"#ffffff",
+          	"#f9c802",
+          	"#FF0000"
+          ]
+        });
+
       };
 
 
-//[{"uuid": "8018be88-3fed-5c24-a352-8f3a12c603a6", "Readings": [[1401895583000.0, 29.5], [1401895588000.0, 29.5]]}]
-
-	uuid = "8018be88-3fed-5c24-a352-8f3a12c603a6"
-	start_time = new Date().getTime() - 60000;
-	
-	smap_query1 = "/getdata/" + uuid + "/" + start_time.toString() + "/";
-
-	(function worker() {
+// for director's office
+	uuid1 = "8018be88-3fed-5c24-a352-8f3a12c603a6"
+	start_time1 = new Date().getTime() - 60000;	
+	smap_query1 = "/getdata/" + uuid1 + "/" + start_time1.toString() + "/";
+	(function worker1() {
 	  $.ajax({
             type:'get',
 	    url: smap_query1, 
@@ -75,7 +88,7 @@
   		} catch (e) {
 	      		console.log('Invalid Json')
   		}
-//[{"uuid": "8018be88-3fed-5c24-a352-8f3a12c603a6", "Readings": [[1401895583000.0, 29.5], [1401895588000.0, 29.5]]}]
+//[{"uuid1": "8018be88-3fed-5c24-a352-8f3a12c603a6", "Readings": [[1401895583000.0, 29.5], [1401895588000.0, 29.5]]}]
 		if( jsonObj != null) { 
 			readings = jsonObj[0].Readings;
 		      	//console.log(readings);
@@ -87,20 +100,20 @@
 		        	g1.refresh(val);
 				var d = new Date(epoch); // The 0 there is the key, which sets the date to the epoch
 			    	$('#g1msg').html("Last updated on " + d.toString());
-				start_time = epoch;
+				start_time1 = epoch;
 			}
 			else {
 				console.log('no readings..')
 			}
 		}
-		start_time = start_time + 2000
-		smap_query1 = "/getdata/" + uuid + "/" + start_time.toString() + "/";
+		start_time1 = start_time1 + 2000
+		smap_query1 = "/getdata/" + uuid1 + "/" + start_time1.toString() + "/";
 		console.log(smap_query1);		
 	    },
 	    complete: function() {
 	      // console.log('complete..')
 	      // Schedule the next request when the current one's complete
-	      setTimeout(worker, 2000);
+	      setTimeout(worker1, 2000);
 	    },
  	    fail: function(jqxhr, textStatus, error) { 
 			console.log("Error occuredd.." + error);
@@ -109,11 +122,72 @@
 	  });
 	})();
 
+
+// for registrar's office
+	uuid2 = "dda5a331-5689-5fd1-9bda-672bf3a9a9e9"
+	start_time2 = new Date().getTime() - 60000;	
+	smap_query2 = "/getdata/" + uuid2 + "/" + start_time2.toString() + "/";
+	(function worker2() {
+	  $.ajax({
+            type:'get',
+	    url: smap_query2, 
+	    //crossDomain: true,
+	    //contentType: "application/json; charset=utf-8",
+	    success: function(data) {
+	      console.log('success \n' + data)
+
+		var jsonObj;
+  	  	try {
+			jsonObj = $.parseJSON(data);
+  		} catch (e) {
+	      		console.log('Invalid Json')
+  		}
+//[{"uuid1": "8018be88-3fed-5c24-a352-8f3a12c603a6", "Readings": [[1401895583000.0, 29.5], [1401895588000.0, 29.5]]}]
+		if( jsonObj != null) { 
+			readings = jsonObj[0].Readings;
+		      	//console.log(readings);
+			if(readings.length > 0 ) {
+				last_reading = readings[readings.length-1]
+				console.log(last_reading);
+				epoch = last_reading[0]
+				val = last_reading[1]
+		        	g2.refresh(val);
+				var d = new Date(epoch); // The 0 there is the key, which sets the date to the epoch
+			    	$('#g2msg').html("Last updated on " + d.toString());
+				start_time2 = epoch;
+			}
+			else {
+				console.log('no readings..')
+			}
+		}
+		start_time2 = start_time2 + 2000
+		smap_query2 = "/getdata/" + uuid2 + "/" + start_time2.toString() + "/";
+		console.log(smap_query2);		
+	    },
+	    complete: function() {
+	      // console.log('complete..')
+	      // Schedule the next request when the current one's complete
+	      setTimeout(worker2, 2000);
+	    },
+ 	    fail: function(jqxhr, textStatus, error) { 
+			console.log("Error occuredd.." + error);
+	            	$('#g2msg').html("Error : " + textStatus);
+	    }
+	  });
+	})();
+
+
+
+
     </script>
 
 	</head>
+
   <body>    
     <div id="g1"></div>
     <div id="g1msg"></div>
+    <div id="g2"></div>
+    <div id="g2msg"></div>
   </body>
+
 </html>
