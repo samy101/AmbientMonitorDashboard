@@ -9,13 +9,13 @@
         text-align: center;
       }
       
-      #g1, #g2{
+      #g1, #g2, #g3 {
         width:400px; height:320px;
         display: inline-block;
         margin: 1em;
       }
       
-      #g3, #g4 {
+      #g4 {
         width:100px; height:80px;
         display: inline-block;
         margin: 1em;
@@ -41,8 +41,8 @@
         g1 = new JustGage({
           id: "g1", 
           value: 0, 
-          min: 0,
-          max: 50,
+          min: 10,
+          max: 40,
           title: "Director's Office",
           label: "Celsius",
           levelColors: [
@@ -55,9 +55,23 @@
         g2 = new JustGage({
           id: "g2", 
           value: 0, 
-          min: 0,
-          max: 50,
+          min: 10,
+          max: 40,
           title: "Registrar's Office",
+          label: "Celsius",
+          levelColors: [
+          	"#ffffff",
+          	"#f9c802",
+          	"#FF0000"
+          ]
+        });
+
+        g3 = new JustGage({
+          id: "g3", 
+          value: 0, 
+          min: 10,
+          max: 40,
+          title: "3rd Floor - PhD Lab",
           label: "Celsius",
           levelColors: [
           	"#ffffff",
@@ -106,14 +120,14 @@
 				console.log('no readings..')
 			}
 		}
-		start_time1 = start_time1 + 2000
+		start_time1 = start_time1 + 5000
 		smap_query1 = "/getdata/" + uuid1 + "/" + start_time1.toString() + "/";
 		console.log(smap_query1);		
 	    },
 	    complete: function() {
 	      // console.log('complete..')
 	      // Schedule the next request when the current one's complete
-	      setTimeout(worker1, 2000);
+	      setTimeout(worker1, 5000);
 	    },
  	    fail: function(jqxhr, textStatus, error) { 
 			console.log("Error occuredd.." + error);
@@ -160,14 +174,14 @@
 				console.log('no readings..')
 			}
 		}
-		start_time2 = start_time2 + 2000
+		start_time2 = start_time2 + 5000
 		smap_query2 = "/getdata/" + uuid2 + "/" + start_time2.toString() + "/";
 		console.log(smap_query2);		
 	    },
 	    complete: function() {
 	      // console.log('complete..')
 	      // Schedule the next request when the current one's complete
-	      setTimeout(worker2, 2000);
+	      setTimeout(worker2, 5000);
 	    },
  	    fail: function(jqxhr, textStatus, error) { 
 			console.log("Error occuredd.." + error);
@@ -176,18 +190,14 @@
 	  });
 	})();
 
-
-
-
     </script>
 
 	</head>
 
   <body>    
-    <div id="g1"></div>
-    <div id="g1msg"></div>
-    <div id="g2"></div>
-    <div id="g2msg"></div>
+    <div id="g1"> <div id="g1msg"></div> </div>    
+    <div id="g2"> <div id="g2msg"></div> </div>
+    <div id="g3"> <div id="g3msg"></div> </div>
   </body>
 
 </html>

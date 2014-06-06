@@ -8,6 +8,9 @@ sudo apt-get update
 sudo pip install python
 sudo apt-get install python2.7-dev
 ---------------------------Dependencies---------------------------
+wget https://bootstrap.pypa.io/get-pip.py
+python ./get-pip.py 
+
 sudo pip install zope.interface --upgrade
 sudo pip install twisted --upgrade
 sudo pip install python-dateutil --upgrade
