@@ -82,9 +82,10 @@
 
       };
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // for director's office
-	uuid1 = "8018be88-3fed-5c24-a352-8f3a12c603a6"
+////////////////////////////////////////////////////////////////////////////////////////////////////
+	uuid1 = "682423e8-6c28-5c2b-8998-239af0ea7630"
 	start_time1 = new Date().getTime() - 60000;	
 	smap_query1 = "/getdata/" + uuid1 + "/" + start_time1.toString() + "/";
 	(function worker1() {
@@ -136,9 +137,10 @@
 	  });
 	})();
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // for registrar's office
-	uuid2 = "dda5a331-5689-5fd1-9bda-672bf3a9a9e9"
+////////////////////////////////////////////////////////////////////////////////////////////////////
+	uuid2 = "d48f7979-17ae-5ceb-a63c-dbfb33dc846f"
 	start_time2 = new Date().getTime() - 60000;	
 	smap_query2 = "/getdata/" + uuid2 + "/" + start_time2.toString() + "/";
 	(function worker2() {
@@ -189,6 +191,64 @@
 	    }
 	  });
 	})();
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// for new PhD lab 3B 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+	uuid3 = "46edc89b-6914-50db-975c-18a21c365260"
+	start_time3 = new Date().getTime() - 60000;	
+	smap_query3 = "/getdata/" + uuid3 + "/" + start_time3.toString() + "/";
+	(function worker3() {
+	  $.ajax({
+            type:'get',
+	    url: smap_query3, 
+	    //crossDomain: true,
+	    //contentType: "application/json; charset=utf-8",
+	    success: function(data) {
+	      console.log('success \n' + data)
+
+		var jsonObj;
+  	  	try {
+			jsonObj = $.parseJSON(data);
+  		} catch (e) {
+	      		console.log('Invalid Json')
+  		}
+//[{"uuid1": "8018be88-3fed-5c24-a352-8f3a12c603a6", "Readings": [[1401895583000.0, 29.5], [1401895588000.0, 29.5]]}]
+		if( jsonObj != null) { 
+			readings = jsonObj[0].Readings;
+		      	//console.log(readings);
+			if(readings.length > 0 ) {
+				last_reading = readings[readings.length-1]
+				console.log(last_reading);
+				epoch = last_reading[0]
+				val = last_reading[1]
+		        	g3.refresh(val);
+				var d = new Date(epoch); // The 0 there is the key, which sets the date to the epoch
+			    	$('#g3msg').html("Last updated on " + d.toString());
+				start_time3 = epoch;
+			}
+			else {
+				console.log('no readings..')
+			}
+		}
+		start_time3 = start_time3 + 5000
+		smap_query3 = "/getdata/" + uuid3 + "/" + start_time3.toString() + "/";
+		console.log(smap_query3);		
+	    },
+	    complete: function() {
+	      // console.log('complete..')
+	      // Schedule the next request when the current one's complete
+	      setTimeout(worker3, 5000);
+	    },
+ 	    fail: function(jqxhr, textStatus, error) { 
+			console.log("Error occuredd.." + error);
+	            	$('#g3msg').html("Error : " + textStatus);
+	    }
+	  });
+	})();
+
 
     </script>
 
