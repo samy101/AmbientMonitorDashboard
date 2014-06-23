@@ -9,7 +9,7 @@
         text-align: center;
       }
       
-      #g1, #g2, #g3 {
+      #g1, #g2, #g3, #g_3a_mtech, #g_3b_mtech, #g_4a_mtech, #g_4b_mtech {
         width:400px; height:320px;
         display: inline-block;
         margin: 1em;
@@ -79,6 +79,64 @@
           	"#FF0000"
           ]
         });
+
+        g_3a_mtech = new JustGage({
+          id: "g_3a_mtech", 
+          value: 0, 
+          min: 10,
+          max: 40,
+          title: "3rd Floor - A MTech Lab",
+          label: "Celsius",
+          levelColors: [
+          	"#ffffff",
+          	"#f9c802",
+          	"#FF0000"
+          ]
+        });
+
+        g_3b_mtech = new JustGage({
+          id: "g_3b_mtech", 
+          value: 0, 
+          min: 10,
+          max: 40,
+          title: "3rd Floor - B MTech Lab",
+          label: "Celsius",
+          levelColors: [
+          	"#ffffff",
+          	"#f9c802",
+          	"#FF0000"
+          ]
+        });
+
+        g_4a_mtech = new JustGage({
+          id: "g_4a_mtech", 
+          value: 0, 
+          min: 10,
+          max: 40,
+          title: "4th Floor - A MTech Lab",
+          label: "Celsius",
+          levelColors: [
+          	"#ffffff",
+          	"#f9c802",
+          	"#FF0000"
+          ]
+        });
+
+        g_4b_mtech = new JustGage({
+          id: "g_4b_mtech", 
+          value: 0, 
+          min: 10,
+          max: 40,
+          title: "4th Floor - B MTech Lab",
+          label: "Celsius",
+          levelColors: [
+          	"#ffffff",
+          	"#f9c802",
+          	"#FF0000"
+          ]
+        });
+
+
 
       };
 
@@ -250,6 +308,225 @@
 	})();
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// for 3A MTech Lab
+////////////////////////////////////////////////////////////////////////////////////////////////////
+	uuid_3a_mtech = "8b4bfaa9-69f5-5c0b-8b1d-a1984acc2a18"
+	start_time_3a_mtech = new Date().getTime() - 60000;	
+	smap_query_3a_mtech = "/getdata/" + uuid_3a_mtech + "/" + start_time_3a_mtech.toString() + "/";
+	(function worker_3a_mtech() {
+	  $.ajax({
+            type:'get',
+	    url: smap_query_3a_mtech, 
+	    //crossDomain: true,
+	    //contentType: "application/json; charset=utf-8",
+	    success: function(data) {
+	      console.log('success \n' + data)
+
+		var jsonObj;
+  	  	try {
+			jsonObj = $.parseJSON(data);
+  		} catch (e) {
+	      		console.log('Invalid Json')
+  		}
+		if( jsonObj != null) { 
+			readings = jsonObj[0].Readings;
+		      	//console.log(readings);
+			if(readings.length > 0 ) {
+				last_reading = readings[readings.length-1]
+				console.log(last_reading);
+				epoch = last_reading[0]
+				val = last_reading[1]
+		        	g_3a_mtech.refresh(val);
+				var d = new Date(epoch); // The 0 there is the key, which sets the date to the epoch
+			    	$('#g_3a_mtech_msg').html("Last updated on " + d.toString());
+				start_time_3a_mtech = epoch;
+			}
+			else {
+				console.log('no readings..')
+			}
+		}
+		start_time_3a_mtech = start_time_3a_mtech + 5000
+		smap_query_3a_mtech = "/getdata/" + uuid_3a_mtech + "/" + start_time_3a_mtech.toString() + "/";
+		console.log(smap_query_3a_mtech);		
+	    },
+	    complete: function() {
+	      // console.log('complete..')
+	      // Schedule the next request when the current one's complete
+	      setTimeout(worker_3a_mtech, 6000);
+	    },
+ 	    fail: function(jqxhr, textStatus, error) { 
+			console.log("Error occuredd.." + error);
+	            	$('#g_3a_mtech_msg').html("Error : " + textStatus);
+	    }
+	  });
+	})();
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// for 3b MTech Lab
+////////////////////////////////////////////////////////////////////////////////////////////////////
+	uuid_3b_mtech = "790d65bd-2801-527d-8f5f-e117e69f257d"
+	start_time_3b_mtech = new Date().getTime() - 60000;	
+	smap_query_3b_mtech = "/getdata/" + uuid_3b_mtech + "/" + start_time_3b_mtech.toString() + "/";
+	(function worker_3b_mtech() {
+	  $.ajax({
+            type:'get',
+	    url: smap_query_3b_mtech, 
+	    //crossDomain: true,
+	    //contentType: "application/json; charset=utf-8",
+	    success: function(data) {
+	      console.log('success \n' + data)
+
+		var jsonObj;
+  	  	try {
+			jsonObj = $.parseJSON(data);
+  		} catch (e) {
+	      		console.log('Invalid Json')
+  		}
+		if( jsonObj != null) { 
+			readings = jsonObj[0].Readings;
+		      	//console.log(readings);
+			if(readings.length > 0 ) {
+				last_reading = readings[readings.length-1]
+				console.log(last_reading);
+				epoch = last_reading[0]
+				val = last_reading[1]
+		        	g_3b_mtech.refresh(val);
+				var d = new Date(epoch); // The 0 there is the key, which sets the date to the epoch
+			    	$('#g_3b_mtech_msg').html("Last updated on " + d.toString());
+				start_time_3b_mtech = epoch;
+			}
+			else {
+				console.log('no readings..')
+			}
+		}
+		start_time_3b_mtech = start_time_3b_mtech + 5000
+		smap_query_3b_mtech = "/getdata/" + uuid_3b_mtech + "/" + start_time_3b_mtech.toString() + "/";
+		console.log(smap_query_3b_mtech);		
+	    },
+	    complete: function() {
+	      // console.log('complete..')
+	      // Schedule the next request when the current one's complete
+	      setTimeout(worker_3b_mtech, 6000);
+	    },
+ 	    fail: function(jqxhr, textStatus, error) { 
+			console.log("Error occuredd.." + error);
+	            	$('#g_3b_mtech_msg').html("Error : " + textStatus);
+	    }
+	  });
+	})();
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// for 4a MTech Lab
+////////////////////////////////////////////////////////////////////////////////////////////////////
+	uuid_4a_mtech = "3509dd8b-75fc-5c7f-b3fd-93f57d38129b"
+	start_time_4a_mtech = new Date().getTime() - 60000;	
+	smap_query_4a_mtech = "/getdata/" + uuid_4a_mtech + "/" + start_time_4a_mtech.toString() + "/";
+	(function worker_4a_mtech() {
+	  $.ajax({
+            type:'get',
+	    url: smap_query_4a_mtech, 
+	    //crossDomain: true,
+	    //contentType: "application/json; charset=utf-8",
+	    success: function(data) {
+	      console.log('success \n' + data)
+
+		var jsonObj;
+  	  	try {
+			jsonObj = $.parseJSON(data);
+  		} catch (e) {
+	      		console.log('Invalid Json')
+  		}
+		if( jsonObj != null) { 
+			readings = jsonObj[0].Readings;
+		      	//console.log(readings);
+			if(readings.length > 0 ) {
+				last_reading = readings[readings.length-1]
+				console.log(last_reading);
+				epoch = last_reading[0]
+				val = last_reading[1]
+		        	g_4a_mtech.refresh(val);
+				var d = new Date(epoch); // The 0 there is the key, which sets the date to the epoch
+			    	$('#g_4a_mtech_msg').html("Last updated on " + d.toString());
+				start_time_4a_mtech = epoch;
+			}
+			else {
+				console.log('no readings..')
+			}
+		}
+		start_time_4a_mtech = start_time_4a_mtech + 5000
+		smap_query_4a_mtech = "/getdata/" + uuid_4a_mtech + "/" + start_time_4a_mtech.toString() + "/";
+		console.log(smap_query_4a_mtech);		
+	    },
+	    complete: function() {
+	      // console.log('complete..')
+	      // Schedule the next request when the current one's complete
+	      setTimeout(worker_4a_mtech, 6000);
+	    },
+ 	    fail: function(jqxhr, textStatus, error) { 
+			console.log("Error occuredd.." + error);
+	            	$('#g_4a_mtech_msg').html("Error : " + textStatus);
+	    }
+	  });
+	})();
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// for 4b MTech Lab
+////////////////////////////////////////////////////////////////////////////////////////////////////
+	uuid_4b_mtech = "6eaf6cd6-b971-5685-9f05-db61844ce5f6"
+	start_time_4b_mtech = new Date().getTime() - 60000;	
+	smap_query_4b_mtech = "/getdata/" + uuid_4b_mtech + "/" + start_time_4b_mtech.toString() + "/";
+	(function worker_4b_mtech() {
+	  $.ajax({
+            type:'get',
+	    url: smap_query_4b_mtech, 
+	    //crossDomain: true,
+	    //contentType: "application/json; charset=utf-8",
+	    success: function(data) {
+	      console.log('success \n' + data)
+
+		var jsonObj;
+  	  	try {
+			jsonObj = $.parseJSON(data);
+  		} catch (e) {
+	      		console.log('Invalid Json')
+  		}
+		if( jsonObj != null) { 
+			readings = jsonObj[0].Readings;
+		      	//console.log(readings);
+			if(readings.length > 0 ) {
+				last_reading = readings[readings.length-1]
+				console.log(last_reading);
+				epoch = last_reading[0]
+				val = last_reading[1]
+		        	g_4b_mtech.refresh(val);
+				var d = new Date(epoch); // The 0 there is the key, which sets the date to the epoch
+			    	$('#g_4b_mtech_msg').html("Last updated on " + d.toString());
+				start_time_4b_mtech = epoch;
+			}
+			else {
+				console.log('no readings..')
+			}
+		}
+		start_time_4b_mtech = start_time_4b_mtech + 5000
+		smap_query_4b_mtech = "/getdata/" + uuid_4b_mtech + "/" + start_time_4b_mtech.toString() + "/";
+		console.log(smap_query_4b_mtech);		
+	    },
+	    complete: function() {
+	      // console.log('complete..')
+	      // Schedule the next request when the current one's complete
+	      setTimeout(worker_4b_mtech, 6000);
+	    },
+ 	    fail: function(jqxhr, textStatus, error) { 
+			console.log("Error occuredd.." + error);
+	            	$('#g_4b_mtech_msg').html("Error : " + textStatus);
+	    }
+	  });
+	})();
+
+
     </script>
 
 	</head>
@@ -258,6 +535,11 @@
     <div id="g1"> <div id="g1msg"></div> </div>    
     <div id="g2"> <div id="g2msg"></div> </div>
     <div id="g3"> <div id="g3msg"></div> </div>
+    <div id="g_3a_mtech"> <div id="g_3a_mtech_msg"></div> </div>
+    <div id="g_3b_mtech"> <div id="g_3b_mtech_msg"></div> </div>
+    <div id="g_4a_mtech"> <div id="g_4a_mtech_msg"></div> </div>
+    <div id="g_4b_mtech"> <div id="g_4b_mtech_msg"></div> </div>
+
   </body>
 
 </html>
