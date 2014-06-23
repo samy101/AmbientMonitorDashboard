@@ -10,7 +10,7 @@
       }
       
       #g1, #g2, #g3, #g_3a_mtech, #g_3b_mtech, #g_4a_mtech, #g_4b_mtech {
-        width:400px; height:320px;
+        width:320px; height:240px;
         display: inline-block;
         margin: 1em;
       }
