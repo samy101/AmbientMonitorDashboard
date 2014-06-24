@@ -9,7 +9,7 @@
         text-align: center;
       }
       
-      #g1, #g2, #g3, #g_3a_mtech, #g_3b_mtech, #g_4a_mtech, #g_4b_mtech {
+      #g_1a_registrar, #g_2a_mtech, #g_2b_mtech, #g_3a_mtech, #g_3b_mtech, #g_3b_newphd, #g_4a_mtech, #g_4b_mtech, #g_5a_director {
         width:320px; height:240px;
         display: inline-block;
         margin: 1em;
@@ -38,12 +38,12 @@
       
       window.onload = function(){
 
-        g1 = new JustGage({
-          id: "g1", 
+        g_1a_registrar = new JustGage({
+          id: "g_1a_registrar", 
           value: 0, 
           min: 10,
           max: 40,
-          title: "Director's Office",
+          title: "1st Floor- Registrar's Office",
           label: "Celsius",
           levelColors: [
           	"#ffffff",
@@ -52,12 +52,12 @@
           ]
         });
 
-        g2 = new JustGage({
-          id: "g2", 
+        g_2a_mtech = new JustGage({
+          id: "g_2a_mtech", 
           value: 0, 
           min: 10,
           max: 40,
-          title: "Registrar's Office",
+          title: "2nd Floor - A MTech Lab",
           label: "Celsius",
           levelColors: [
           	"#ffffff",
@@ -66,12 +66,12 @@
           ]
         });
 
-        g3 = new JustGage({
-          id: "g3", 
+        g_2b_mtech = new JustGage({
+          id: "g_2b_mtech", 
           value: 0, 
           min: 10,
           max: 40,
-          title: "3rd Floor - PhD Lab",
+          title: "2nd Floor - B MTech Lab",
           label: "Celsius",
           levelColors: [
           	"#ffffff",
@@ -108,6 +108,20 @@
           ]
         });
 
+        g_3b_newphd = new JustGage({
+          id: "g_3b_newphd", 
+          value: 0, 
+          min: 10,
+          max: 40,
+          title: "3rd Floor - B New PhD Lab",
+          label: "Celsius",
+          levelColors: [
+          	"#ffffff",
+          	"#f9c802",
+          	"#FF0000"
+          ]
+        });
+
         g_4a_mtech = new JustGage({
           id: "g_4a_mtech", 
           value: 0, 
@@ -136,20 +150,33 @@
           ]
         });
 
+        g_5a_director = new JustGage({
+          id: "g_5a_director", 
+          value: 0, 
+          min: 10,
+          max: 40,
+          title: "5th Floor - Director's Office",
+          label: "Celsius",
+          levelColors: [
+          	"#ffffff",
+          	"#f9c802",
+          	"#FF0000"
+          ]
+        });
 
 
       };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// for director's office
+// for 1a Registrar's office
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-	uuid1 = "682423e8-6c28-5c2b-8998-239af0ea7630"
-	start_time1 = new Date().getTime() - 60000;	
-	smap_query1 = "/getdata/" + uuid1 + "/" + start_time1.toString() + "/";
-	(function worker1() {
+	uuid_1a_registrar = "d48f7979-17ae-5ceb-a63c-dbfb33dc846f"
+	start_time_1a_registrar = new Date().getTime() - 60000;	
+	smap_query_1a_registrar = "/getdata/" + uuid_1a_registrar + "/" + start_time_1a_registrar.toString() + "/";
+	(function worker_1a_registrar() {
 	  $.ajax({
             type:'get',
-	    url: smap_query1, 
+	    url: smap_query_1a_registrar, 
 	    //crossDomain: true,
 	    //contentType: "application/json; charset=utf-8",
 	    success: function(data) {
@@ -161,7 +188,6 @@
   		} catch (e) {
 	      		console.log('Invalid Json')
   		}
-//[{"uuid1": "8018be88-3fed-5c24-a352-8f3a12c603a6", "Readings": [[1401895583000.0, 29.5], [1401895588000.0, 29.5]]}]
 		if( jsonObj != null) { 
 			readings = jsonObj[0].Readings;
 		      	//console.log(readings);
@@ -170,41 +196,41 @@
 				console.log(last_reading);
 				epoch = last_reading[0]
 				val = last_reading[1]
-		        	g1.refresh(val);
+		        	g_1a_registrar.refresh(val);
 				var d = new Date(epoch); // The 0 there is the key, which sets the date to the epoch
-			    	$('#g1msg').html("Last updated on " + d.toString());
-				start_time1 = epoch;
+			    	$('#g_1a_registrar_msg').html("Last updated on " + d.toString());
+				start_time_1a_registrar = epoch;
 			}
 			else {
 				console.log('no readings..')
 			}
 		}
-		start_time1 = start_time1 + 5000
-		smap_query1 = "/getdata/" + uuid1 + "/" + start_time1.toString() + "/";
-		console.log(smap_query1);		
+		start_time_1a_registrar = start_time_1a_registrar + 5000
+		smap_query_1a_registrar = "/getdata/" + uuid_1a_registrar + "/" + start_time_1a_registrar.toString() + "/";
+		console.log(smap_query_1a_registrar);		
 	    },
 	    complete: function() {
 	      // console.log('complete..')
 	      // Schedule the next request when the current one's complete
-	      setTimeout(worker1, 5000);
+	      setTimeout(worker_1a_registrar, 4500);
 	    },
  	    fail: function(jqxhr, textStatus, error) { 
 			console.log("Error occuredd.." + error);
-	            	$('#g1msg').html("Error : " + textStatus);
+	            	$('#g_1a_registrar_msg').html("Error : " + textStatus);
 	    }
 	  });
 	})();
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// for registrar's office
+// for 2a MTech Lab
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-	uuid2 = "d48f7979-17ae-5ceb-a63c-dbfb33dc846f"
-	start_time2 = new Date().getTime() - 60000;	
-	smap_query2 = "/getdata/" + uuid2 + "/" + start_time2.toString() + "/";
-	(function worker2() {
+	uuid_2a_mtech = "861baafc-7bd6-576b-b788-89eb237f7f64"
+	start_time_2a_mtech = new Date().getTime() - 60000;	
+	smap_query_2a_mtech = "/getdata/" + uuid_2a_mtech + "/" + start_time_2a_mtech.toString() + "/";
+	(function worker_2a_mtech() {
 	  $.ajax({
             type:'get',
-	    url: smap_query2, 
+	    url: smap_query_2a_mtech, 
 	    //crossDomain: true,
 	    //contentType: "application/json; charset=utf-8",
 	    success: function(data) {
@@ -216,7 +242,6 @@
   		} catch (e) {
 	      		console.log('Invalid Json')
   		}
-//[{"uuid1": "8018be88-3fed-5c24-a352-8f3a12c603a6", "Readings": [[1401895583000.0, 29.5], [1401895588000.0, 29.5]]}]
 		if( jsonObj != null) { 
 			readings = jsonObj[0].Readings;
 		      	//console.log(readings);
@@ -225,43 +250,42 @@
 				console.log(last_reading);
 				epoch = last_reading[0]
 				val = last_reading[1]
-		        	g2.refresh(val);
+		        	g_2a_mtech.refresh(val);
 				var d = new Date(epoch); // The 0 there is the key, which sets the date to the epoch
-			    	$('#g2msg').html("Last updated on " + d.toString());
-				start_time2 = epoch;
+			    	$('#g_2a_mtech_msg').html("Last updated on " + d.toString());
+				start_time_2a_mtech = epoch;
 			}
 			else {
 				console.log('no readings..')
 			}
 		}
-		start_time2 = start_time2 + 5000
-		smap_query2 = "/getdata/" + uuid2 + "/" + start_time2.toString() + "/";
-		console.log(smap_query2);		
+		start_time_2a_mtech = start_time_2a_mtech + 5000
+		smap_query_2a_mtech = "/getdata/" + uuid_2a_mtech + "/" + start_time_2a_mtech.toString() + "/";
+		console.log(smap_query_2a_mtech);		
 	    },
 	    complete: function() {
 	      // console.log('complete..')
 	      // Schedule the next request when the current one's complete
-	      setTimeout(worker2, 5000);
+	      setTimeout(worker_2a_mtech, 4500);
 	    },
  	    fail: function(jqxhr, textStatus, error) { 
 			console.log("Error occuredd.." + error);
-	            	$('#g2msg').html("Error : " + textStatus);
+	            	$('#g_2a_mtech_msg').html("Error : " + textStatus);
 	    }
 	  });
 	})();
 
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// for new PhD lab 3B 
+// for 2b MTech Lab
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-	uuid3 = "46edc89b-6914-50db-975c-18a21c365260"
-	start_time3 = new Date().getTime() - 60000;	
-	smap_query3 = "/getdata/" + uuid3 + "/" + start_time3.toString() + "/";
-	(function worker3() {
+	uuid_2b_mtech = "2ba35cf1-b3e3-5eb3-9a96-2fc48e6330af"
+	start_time_2b_mtech = new Date().getTime() - 60000;	
+	smap_query_2b_mtech = "/getdata/" + uuid_2b_mtech + "/" + start_time_2b_mtech.toString() + "/";
+	(function worker_2b_mtech() {
 	  $.ajax({
             type:'get',
-	    url: smap_query3, 
+	    url: smap_query_2b_mtech, 
 	    //crossDomain: true,
 	    //contentType: "application/json; charset=utf-8",
 	    success: function(data) {
@@ -273,7 +297,6 @@
   		} catch (e) {
 	      		console.log('Invalid Json')
   		}
-//[{"uuid1": "8018be88-3fed-5c24-a352-8f3a12c603a6", "Readings": [[1401895583000.0, 29.5], [1401895588000.0, 29.5]]}]
 		if( jsonObj != null) { 
 			readings = jsonObj[0].Readings;
 		      	//console.log(readings);
@@ -282,27 +305,27 @@
 				console.log(last_reading);
 				epoch = last_reading[0]
 				val = last_reading[1]
-		        	g3.refresh(val);
+		        	g_2b_mtech.refresh(val);
 				var d = new Date(epoch); // The 0 there is the key, which sets the date to the epoch
-			    	$('#g3msg').html("Last updated on " + d.toString());
-				start_time3 = epoch;
+			    	$('#g_2b_mtech_msg').html("Last updated on " + d.toString());
+				start_time_2b_mtech = epoch;
 			}
 			else {
 				console.log('no readings..')
 			}
 		}
-		start_time3 = start_time3 + 5000
-		smap_query3 = "/getdata/" + uuid3 + "/" + start_time3.toString() + "/";
-		console.log(smap_query3);		
+		start_time_2b_mtech = start_time_2b_mtech + 5000
+		smap_query_2b_mtech = "/getdata/" + uuid_2b_mtech + "/" + start_time_2b_mtech.toString() + "/";
+		console.log(smap_query_2b_mtech);		
 	    },
 	    complete: function() {
 	      // console.log('complete..')
 	      // Schedule the next request when the current one's complete
-	      setTimeout(worker3, 5000);
+	      setTimeout(worker_2b_mtech, 4500);
 	    },
  	    fail: function(jqxhr, textStatus, error) { 
 			console.log("Error occuredd.." + error);
-	            	$('#g3msg').html("Error : " + textStatus);
+	            	$('#g_2b_mtech_msg').html("Error : " + textStatus);
 	    }
 	  });
 	})();
@@ -353,7 +376,7 @@
 	    complete: function() {
 	      // console.log('complete..')
 	      // Schedule the next request when the current one's complete
-	      setTimeout(worker_3a_mtech, 6000);
+	      setTimeout(worker_3a_mtech, 5000);
 	    },
  	    fail: function(jqxhr, textStatus, error) { 
 			console.log("Error occuredd.." + error);
@@ -407,11 +430,66 @@
 	    complete: function() {
 	      // console.log('complete..')
 	      // Schedule the next request when the current one's complete
-	      setTimeout(worker_3b_mtech, 6000);
+	      setTimeout(worker_3b_mtech, 5000);
 	    },
  	    fail: function(jqxhr, textStatus, error) { 
 			console.log("Error occuredd.." + error);
 	            	$('#g_3b_mtech_msg').html("Error : " + textStatus);
+	    }
+	  });
+	})();
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// for 3b new PhD Lab
+////////////////////////////////////////////////////////////////////////////////////////////////////
+	uuid_3b_newphd = "5afaf2c5-2cb2-54a5-9aaf-9eeca2698716"
+	start_time_3b_newphd = new Date().getTime() - 60000;	
+	smap_query_3b_newphd = "/getdata/" + uuid_3b_newphd + "/" + start_time_3b_newphd.toString() + "/";
+	(function worker_3b_newphd() {
+	  $.ajax({
+            type:'get',
+	    url: smap_query_3b_newphd, 
+	    //crossDomain: true,
+	    //contentType: "application/json; charset=utf-8",
+	    success: function(data) {
+	      console.log('success \n' + data)
+
+		var jsonObj;
+  	  	try {
+			jsonObj = $.parseJSON(data);
+  		} catch (e) {
+	      		console.log('Invalid Json')
+  		}
+		if( jsonObj != null) { 
+			readings = jsonObj[0].Readings;
+		      	//console.log(readings);
+			if(readings.length > 0 ) {
+				last_reading = readings[readings.length-1]
+				console.log(last_reading);
+				epoch = last_reading[0]
+				val = last_reading[1]
+		        	g_3b_newphd.refresh(val);
+				var d = new Date(epoch); // The 0 there is the key, which sets the date to the epoch
+			    	$('#g_3b_newphd_msg').html("Last updated on " + d.toString());
+				start_time_3b_newphd = epoch;
+			}
+			else {
+				console.log('no readings..')
+			}
+		}
+		start_time_3b_newphd = start_time_3b_newphd + 5000
+		smap_query_3b_newphd = "/getdata/" + uuid_3b_newphd + "/" + start_time_3b_newphd.toString() + "/";
+		console.log(smap_query_3b_newphd);		
+	    },
+	    complete: function() {
+	      // console.log('complete..')
+	      // Schedule the next request when the current one's complete
+	      setTimeout(worker_3b_newphd, 5000);
+	    },
+ 	    fail: function(jqxhr, textStatus, error) { 
+			console.log("Error occuredd.." + error);
+	            	$('#g_3b_newphd_msg').html("Error : " + textStatus);
 	    }
 	  });
 	})();
@@ -462,7 +540,7 @@
 	    complete: function() {
 	      // console.log('complete..')
 	      // Schedule the next request when the current one's complete
-	      setTimeout(worker_4a_mtech, 6000);
+	      setTimeout(worker_4a_mtech, 5500);
 	    },
  	    fail: function(jqxhr, textStatus, error) { 
 			console.log("Error occuredd.." + error);
@@ -517,7 +595,7 @@
 	    complete: function() {
 	      // console.log('complete..')
 	      // Schedule the next request when the current one's complete
-	      setTimeout(worker_4b_mtech, 6000);
+	      setTimeout(worker_4b_mtech, 5500);
 	    },
  	    fail: function(jqxhr, textStatus, error) { 
 			console.log("Error occuredd.." + error);
@@ -527,18 +605,80 @@
 	})();
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// for 5a Director's office
+////////////////////////////////////////////////////////////////////////////////////////////////////
+	uuid_5a_director = "682423e8-6c28-5c2b-8998-239af0ea7630"
+	start_time_5a_director = new Date().getTime() - 60000;	
+	smap_query_5a_director = "/getdata/" + uuid_5a_director + "/" + start_time_5a_director.toString() + "/";
+	(function worker_5a_director() {
+	  $.ajax({
+            type:'get',
+	    url: smap_query_5a_director, 
+	    //crossDomain: true,
+	    //contentType: "application/json; charset=utf-8",
+	    success: function(data) {
+	      console.log('success \n' + data)
+
+		var jsonObj;
+  	  	try {
+			jsonObj = $.parseJSON(data);
+  		} catch (e) {
+	      		console.log('Invalid Json')
+  		}
+		if( jsonObj != null) { 
+			readings = jsonObj[0].Readings;
+		      	//console.log(readings);
+			if(readings.length > 0 ) {
+				last_reading = readings[readings.length-1]
+				console.log(last_reading);
+				epoch = last_reading[0]
+				val = last_reading[1]
+		        	g_5a_director.refresh(val);
+				var d = new Date(epoch); // The 0 there is the key, which sets the date to the epoch
+			    	$('#g_5a_director_msg').html("Last updated on " + d.toString());
+				start_time_5a_director = epoch;
+			}
+			else {
+				console.log('no readings..')
+			}
+		}
+		start_time_5a_director = start_time_5a_director + 5000
+		smap_query_5a_director = "/getdata/" + uuid_5a_director + "/" + start_time_5a_director.toString() + "/";
+		console.log(smap_query_5a_director);		
+	    },
+	    complete: function() {
+	      // console.log('complete..')
+	      // Schedule the next request when the current one's complete
+	      setTimeout(worker_5a_director, 5500);
+	    },
+ 	    fail: function(jqxhr, textStatus, error) { 
+			console.log("Error occuredd.." + error);
+	            	$('#g_5a_director_msg').html("Error : " + textStatus);
+	    }
+	  });
+	})();
+
+
+
     </script>
 
 	</head>
 
   <body>    
-    <div id="g1"> <div id="g1msg"></div> </div>    
-    <div id="g2"> <div id="g2msg"></div> </div>
-    <div id="g3"> <div id="g3msg"></div> </div>
+    <div id="g_1a_registrar"> <div id="g_1a_registrar_msg"></div> </div>
+
+    <div id="g_2a_mtech"> <div id="g_2a_mtech_msg"></div> </div>
+    <div id="g_2b_mtech"> <div id="g_2b_mtech_msg"></div> </div>
+
     <div id="g_3a_mtech"> <div id="g_3a_mtech_msg"></div> </div>
     <div id="g_3b_mtech"> <div id="g_3b_mtech_msg"></div> </div>
+    <div id="g_3b_newphd"> <div id="g_3b_newphd_msg"></div> </div>
+
     <div id="g_4a_mtech"> <div id="g_4a_mtech_msg"></div> </div>
     <div id="g_4b_mtech"> <div id="g_4b_mtech_msg"></div> </div>
+
+    <div id="g_5a_director"> <div id="g_5a_director_msg"></div> </div>
 
   </body>
 
