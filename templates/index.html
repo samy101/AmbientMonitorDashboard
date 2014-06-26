@@ -9,7 +9,7 @@
         text-align: center;
       }
       
-      #g_1a_registrar, #g_2a_mtech, #g_2b_mtech, #g_3a_mtech, #g_3b_mtech, #g_3b_newphd, #g_4a_mtech, #g_4b_mtech, #g_5a_director {
+      #g_1a_registrar, #g_2a_mtech, #g_2b_phd, #g_2b_mtech, #g_3a_mtech, #g_3b_mtech, #g_3b_newphd, #g_4a_mtech, #g_4b_mtech, #g_5a_director, #g_5b_boardroom {
         width:320px; height:240px;
         display: inline-block;
         margin: 1em;
@@ -43,7 +43,7 @@
           value: 0, 
           min: 10,
           max: 40,
-          title: "1st Floor- Registrar's Office",
+          title: "1st Floor - Registrar's Office",
           label: "Celsius",
           levelColors: [
           	"#ffffff",
@@ -57,7 +57,21 @@
           value: 0, 
           min: 10,
           max: 40,
-          title: "2nd Floor - A MTech Lab",
+          title: "2nd Floor - A - MTech Lab",
+          label: "Celsius",
+          levelColors: [
+          	"#ffffff",
+          	"#f9c802",
+          	"#FF0000"
+          ]
+        });
+
+        g_2b_phd = new JustGage({
+          id: "g_2b_phd", 
+          value: 0, 
+          min: 10,
+          max: 40,
+          title: "2nd Floor - B - PhD Lab",
           label: "Celsius",
           levelColors: [
           	"#ffffff",
@@ -71,7 +85,7 @@
           value: 0, 
           min: 10,
           max: 40,
-          title: "2nd Floor - B MTech Lab",
+          title: "2nd Floor - B - MTech Lab",
           label: "Celsius",
           levelColors: [
           	"#ffffff",
@@ -85,7 +99,7 @@
           value: 0, 
           min: 10,
           max: 40,
-          title: "3rd Floor - A MTech Lab",
+          title: "3rd Floor - A - MTech Lab",
           label: "Celsius",
           levelColors: [
           	"#ffffff",
@@ -99,7 +113,7 @@
           value: 0, 
           min: 10,
           max: 40,
-          title: "3rd Floor - B MTech Lab",
+          title: "3rd Floor - B - MTech Lab",
           label: "Celsius",
           levelColors: [
           	"#ffffff",
@@ -113,7 +127,7 @@
           value: 0, 
           min: 10,
           max: 40,
-          title: "3rd Floor - B New PhD Lab",
+          title: "3rd Floor - B - New PhD Lab",
           label: "Celsius",
           levelColors: [
           	"#ffffff",
@@ -127,7 +141,7 @@
           value: 0, 
           min: 10,
           max: 40,
-          title: "4th Floor - A MTech Lab",
+          title: "4th Floor - A - MTech Lab",
           label: "Celsius",
           levelColors: [
           	"#ffffff",
@@ -141,7 +155,7 @@
           value: 0, 
           min: 10,
           max: 40,
-          title: "4th Floor - B MTech Lab",
+          title: "4th Floor - B - MTech Lab",
           label: "Celsius",
           levelColors: [
           	"#ffffff",
@@ -156,6 +170,20 @@
           min: 10,
           max: 40,
           title: "5th Floor - Director's Office",
+          label: "Celsius",
+          levelColors: [
+          	"#ffffff",
+          	"#f9c802",
+          	"#FF0000"
+          ]
+        });
+
+        g_5b_boardroom = new JustGage({
+          id: "g_5b_boardroom", 
+          value: 0, 
+          min: 10,
+          max: 40,
+          title: "5th Floor - Board Room",
           label: "Celsius",
           levelColors: [
           	"#ffffff",
@@ -271,6 +299,61 @@
  	    fail: function(jqxhr, textStatus, error) { 
 			console.log("Error occuredd.." + error);
 	            	$('#g_2a_mtech_msg').html("Error : " + textStatus);
+	    }
+	  });
+	})();
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// for 2b PhD Lab
+////////////////////////////////////////////////////////////////////////////////////////////////////
+	uuid_2b_phd = "ab22036d-6329-5cae-bbbf-4995f5ecc8c0"
+	start_time_2b_phd = new Date().getTime() - 60000;	
+	smap_query_2b_phd = "/getdata/" + uuid_2b_phd + "/" + start_time_2b_phd.toString() + "/";
+	(function worker_2b_phd() {
+	  $.ajax({
+            type:'get',
+	    url: smap_query_2b_phd, 
+	    //crossDomain: true,
+	    //contentType: "application/json; charset=utf-8",
+	    success: function(data) {
+	      console.log('success \n' + data)
+
+		var jsonObj;
+  	  	try {
+			jsonObj = $.parseJSON(data);
+  		} catch (e) {
+	      		console.log('Invalid Json')
+  		}
+		if( jsonObj != null) { 
+			readings = jsonObj[0].Readings;
+		      	//console.log(readings);
+			if(readings.length > 0 ) {
+				last_reading = readings[readings.length-1]
+				console.log(last_reading);
+				epoch = last_reading[0]
+				val = last_reading[1]
+		        	g_2b_phd.refresh(val);
+				var d = new Date(epoch); // The 0 there is the key, which sets the date to the epoch
+			    	$('#g_2b_phd_msg').html("Last updated on " + d.toString());
+				start_time_2b_phd = epoch;
+			}
+			else {
+				console.log('no readings..')
+			}
+		}
+		start_time_2b_phd = start_time_2b_phd + 5000
+		smap_query_2b_phd = "/getdata/" + uuid_2b_phd + "/" + start_time_2b_phd.toString() + "/";
+		console.log(smap_query_2b_phd);		
+	    },
+	    complete: function() {
+	      // console.log('complete..')
+	      // Schedule the next request when the current one's complete
+	      setTimeout(worker_2b_phd, 5000);
+	    },
+ 	    fail: function(jqxhr, textStatus, error) { 
+			console.log("Error occuredd.." + error);
+	            	$('#g_2b_phd_msg').html("Error : " + textStatus);
 	    }
 	  });
 	})();
@@ -659,7 +742,59 @@
 	  });
 	})();
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// for 5b Board room
+////////////////////////////////////////////////////////////////////////////////////////////////////
+	uuid_5b_boardroom = "72b37578-183a-53bc-96a2-e9e66433bc40"
+	start_time_5b_boardroom = new Date().getTime() - 60000;	
+	smap_query_5b_boardroom = "/getdata/" + uuid_5b_boardroom + "/" + start_time_5b_boardroom.toString() + "/";
+	(function worker_5b_boardroom() {
+	  $.ajax({
+            type:'get',
+	    url: smap_query_5b_boardroom, 
+	    //crossDomain: true,
+	    //contentType: "application/json; charset=utf-8",
+	    success: function(data) {
+	      console.log('success \n' + data)
 
+		var jsonObj;
+  	  	try {
+			jsonObj = $.parseJSON(data);
+  		} catch (e) {
+	      		console.log('Invalid Json')
+  		}
+		if( jsonObj != null) { 
+			readings = jsonObj[0].Readings;
+		      	//console.log(readings);
+			if(readings.length > 0 ) {
+				last_reading = readings[readings.length-1]
+				console.log(last_reading);
+				epoch = last_reading[0]
+				val = last_reading[1]
+		        	g_5b_boardroom.refresh(val);
+				var d = new Date(epoch); // The 0 there is the key, which sets the date to the epoch
+			    	$('#g_5b_boardroom_msg').html("Last updated on " + d.toString());
+				start_time_5b_boardroom = epoch;
+			}
+			else {
+				console.log('no readings..')
+			}
+		}
+		start_time_5b_boardroom = start_time_5b_boardroom + 5000
+		smap_query_5b_boardroom = "/getdata/" + uuid_5b_boardroom + "/" + start_time_5b_boardroom.toString() + "/";
+		console.log(smap_query_5b_boardroom);		
+	    },
+	    complete: function() {
+	      // console.log('complete..')
+	      // Schedule the next request when the current one's complete
+	      setTimeout(worker_5b_boardroom, 5500);
+	    },
+ 	    fail: function(jqxhr, textStatus, error) { 
+			console.log("Error occuredd.." + error);
+	            	$('#g_5b_boardroom_msg').html("Error : " + textStatus);
+	    }
+	  });
+	})();
 
     </script>
 
@@ -669,6 +804,7 @@
     <div id="g_1a_registrar"> <div id="g_1a_registrar_msg"></div> </div>
 
     <div id="g_2a_mtech"> <div id="g_2a_mtech_msg"></div> </div>
+    <div id="g_2b_phd"> <div id="g_2b_phd_msg"></div> </div>
     <div id="g_2b_mtech"> <div id="g_2b_mtech_msg"></div> </div>
 
     <div id="g_3a_mtech"> <div id="g_3a_mtech_msg"></div> </div>
@@ -679,6 +815,7 @@
     <div id="g_4b_mtech"> <div id="g_4b_mtech_msg"></div> </div>
 
     <div id="g_5a_director"> <div id="g_5a_director_msg"></div> </div>
+    <div id="g_5b_boardroom"> <div id="g_5b_boardroom_msg"></div> </div>
 
   </body>
 
