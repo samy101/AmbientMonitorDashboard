@@ -1,0 +1,1 @@
+*/1 * * * * /home/pi/AmbientSense/WiFiChecker.sh > /home/pi/AmbientSense/WiFiChecker.log
