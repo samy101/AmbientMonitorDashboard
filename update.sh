@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for dest in $(<ip.txt); do
+for dest in $(<ips.txt); do
 	echo "Updating ${dest}"
 
    	# one ping to the current hostname
@@ -24,8 +24,8 @@ for dest in $(<ip.txt); do
         # sshpass -p "pi" ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 pi@${dest} sudo /home/pi/AmbientSense/runsmap.sh
 
 	# copy the WiFiChecker.sh and WiFiChecker.cron
-	sshpass -p "pi" scp -o StrictHostKeyChecking=no -o ConnectTimeout=10 pi@${dest} ./WiFiChecker.sh pi@${dest}:/home/pi/AmbientSense
-        sshpass -p "pi" ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 pi@${dest} "crontab -l | { cat; echo '*/1 * * * * /home/pi/AmbientSense/WiFiChecker.sh > /home/pi/AmbientSense/WiFiChecker.log'; } | crontab -"
+	# sshpass -p "pi" scp -o StrictHostKeyChecking=no -o ConnectTimeout=10 pi@${dest} ./WiFiChecker.sh pi@${dest}:/home/pi/AmbientSense
+        # sshpass -p "pi" ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 pi@${dest} "crontab -l | { cat; echo '*/1 * * * * /home/pi/AmbientSense/WiFiChecker.sh > /home/pi/AmbientSense/WiFiChecker.log'; } | crontab -"
 
 	# (crontab -l 2>/dev/null; echo "*/5 * * * * /path/to/job -with args") | crontab -
 	# (crontab -l 2>/dev/null; echo "*/1 * * * * /home/pi/AmbientSense/WiFiChecker.sh > /home/pi/AmbientSense/WiFiChecker.log") | crontab -
